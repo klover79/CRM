@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% block content %}
+
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+    <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+      <h1 class="title-font font-medium text-3xl text-gray-900">DJCRM Customer Relationship Management System</h1>
+      <p class="leading-relaxed mt-4">Purely developed on Django platform.</p>
+    </div>
+    <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 shadow-md">
+      <h2 class="text-gray-900 text-lg font-medium title-font">Enter your credentials</h2>
+      <div class="mt-1 border-t border-gray-200 bmt-3 mb-3">
+        <a class="hover:text-blue-500 mt-4" href="{% url 'signup' %}">Don't have an account?</a>
+      </div>
+      <div class="relative mb-4">
+        <form action="" method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button type="submit"
+            class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Login</button>
+          </form>
+          <div class="mt-5 border-t border-gray-200 bmt-5">
+            <a class="hover:text-blue-500 mt-4" href="{% url 'password-reset' %}">Forget password?</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

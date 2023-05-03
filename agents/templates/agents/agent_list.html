@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-10 mx-auto">
+        <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-t border-gray-200">
+            <div>
+                <h1 class="text-4xl text-gray-900">Agents</h1>
+            </div>
+            {% if request.user.is_organiser %}
+            <div>
+                <a class="text=text-gray-600 hover:text-blue-500 " href="{% url 'agents:agent-create' %}">Create
+                    Agents</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+            <table class="table-auto w-full text-left whitespace-no-wrap">
+                <thead>
+                    <tr>
+                        <th
+                            class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                            First Name</th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                            Last Name</th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                            Email</th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                            Username</th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                            View</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for agent in agents %}
+                    <tr>
+                        <td class="px-4 py-3">{{agent.user.first_name}} </td>
+                        <td class="px-4 py-3">{{agent.user.last_name}}</td>
+                        <td class="px-4 py-3">{{agent.user.email}}</td>
+                        <td class="px-4 py-3">{{agent.user.username}}</td>
+                        <td class="px-4 py-3">
+                            <a href="{% url 'agents:agent-detail' agent.pk %}">
+                                <svg class="h-6 w-6 text-indigo-500" width="24" height="24" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" />
+                                    <circle cx="10" cy="10" r="7" />
+                                    <line x1="7" y1="10" x2="13" y2="10" />
+                                    <line x1="10" y1="7" x2="10" y2="13" />
+                                    <line x1="21" y1="21" x2="15" y2="15" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <p>There are no agent</p>
+                    {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock content %}

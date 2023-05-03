@@ -1,0 +1,31 @@
+body {
+    background-color: white;
+}
+
+/* tailwind conversions */
+h1 {
+    margin-bottom: 1rem; 
+    color: #111827; 
+    font-size: 1.875rem;
+    line-height: 2.25rem; 
+    font-weight: 500;       
+}
+
+
+.button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; 
+    padding-left: 2rem;
+    padding-right: 2rem; 
+    background-color: #6366F1; 
+    color: #ffffff;     
+    font-size: 1.20rem;
+    line-height: 1.75rem; 
+    border-radius: 0.25rem; 
+    border-width: 0; 
+    
+}
+
+.button:hover {
+    background-color: #4F46E5; 
+} 

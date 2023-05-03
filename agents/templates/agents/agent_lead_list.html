@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+
+{% block content %}
+
+<section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="lg:w-4/5 mx-auto flex flex-wrap">
+            <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+                <h2 class="text-sm title-font text-gray-500 tracking-widest">AGENT's LEAD</h2>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{agent.user.first_name}}
+                    {{agent.user.last_name}}
+                </h1>
+                <div class="flex mb-4">
+                    <a href="{% url 'agents:agent-detail' agent.pk %}"
+                        class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Overview</a>
+                    <!-- active -->
+                    <a href="{% url 'agents:agent-lead-list' agent.pk %}"
+                        class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Leads</a>
+
+                    <a href="{% url 'agents:agent-update' agent.pk %}"
+                        class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Update
+                        Details</a>
+                </div>
+                <!-- list start -->
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                        <tr>
+                          <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">First Name</th>
+                          <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Last Name</th>                 
+                          <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">View</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for lead in agent_leads %}
+                        <tr>
+                            <td>{{lead.first_name}}</td>
+                            <td>{{lead.last_name}}</td>
+                            <td>TODO link</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                </table>
+                <!-- list end -->
+            </div>
+            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+                src="https://dummyimage.com/400x400">
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}

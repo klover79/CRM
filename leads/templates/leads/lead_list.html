@@ -1,0 +1,129 @@
+{% extends 'base.html' %} {% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-10 mx-auto flex flex-wrap">
+        <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-t border-gray-200">
+            <div>
+                <h1 class="text-4xl text-gray-900">Leads</h1>
+                <div>
+                    <a class="text=text-gray-600 hover:text-blue-500 " href="{% url 'leads:category-list' %}">View
+                        Categories</a>
+                </div>
+            </div>
+            {% if request.user.is_organiser %}
+            <div>
+                <a class="text=text-gray-600 hover:text-blue-500 " href="{% url 'leads:lead-create' %}">Create Leads</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Assigned Leads -->
+        <div class="container px-5 py-5 mx-auto">
+            <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                                First Name</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                Last Name</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                Description</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                Category</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lead in leads %}
+                        <tr>
+                            <td class="px-4 py-3">{{lead.first_name}}</td>
+                            <td class="px-4 py-3">{{lead.last_name}}</td>
+                            <td class="px-4 py-3">{{lead.description|truncatechars:50 }}</td>
+                            <td class="px-4 py-3">
+                                {% if lead.category.name == "Contacted" %}
+                                <span
+                                    class="bg-gray-500 font-bold text-gray-800 text-center py-1 px-2 text-xs rounded">{{lead.category}}</span>
+                                {% elif lead.category.name == "Converted" %}
+                                <span
+                                    class="bg-green-400 font-bold text-gray-800 text-center py-1 px-2 text-xs rounded">{{lead.category}}</span>
+                                {% elif lead.category.name == "Unconverted" %}
+                                <span
+                                    class="bg-red-500 font-bold text-gray-800 text-center py-1 px-2 text-xs rounded">{{lead.category}}</span>
+                                {% else %}
+                                <span
+                                    class="bg-yellow-500 font-bold text-gray-800 text-center py-1 px-2 text-xs rounded">Unassigned</span>
+                                {% endif %}
+
+                            </td>
+                            <td class="px-4 py-3">
+                                <a href="{% url 'leads:lead-detail' lead.pk %}">
+                                    <svg class="h-6 w-6 text-indigo-500" width="24" height="24" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" />
+                                        <circle cx="10" cy="10" r="7" />
+                                        <line x1="7" y1="10" x2="13" y2="10" />
+                                        <line x1="10" y1="7" x2="10" y2="13" />
+                                        <line x1="21" y1="21" x2="15" y2="15" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <p>There are currently no leads</p>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Unassigned Leads -->
+        {% if unassigned_leads.exists %}
+        <div class="container px-5 py-5 mx-auto">
+            <div class="flex flex-col text-center w-full mb-20">
+                <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Unassigned Leads</h1>
+                <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Please assign these leads to available agents
+                </p>
+            </div>
+            <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                        <tr>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                                First Name</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                Last Name</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                Description</th>
+                            <th
+                                class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                Assignment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lead in unassigned_leads %}
+                        <tr>
+                            <td class="px-4 py-3">{{lead.first_name}}</td>
+                            <td class="px-4 py-3">{{lead.last_name}}</td>
+                            <td class="px-4 py-3">{{lead.description|truncatechars:255 }}</td>
+                            <td class="px-4 py-3"><a href="{% url 'leads:assign-agent' lead.pk %}">Assign</a></td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}
